@@ -2,9 +2,12 @@
 
 create or alter procedure bronze.load_data as
 begin
+	declare @start_time datetime, @end_time datetime, @batch_start_time datetime, @batch_end_time datetime;
 	begin try
+		set @batch_start_time = getdate();
 		print 'Loading data into bronze layer...';
 		print 'Loading CRM data...';
+		set @start_time = getdate();
 		print '> Truncating table: bronze.crm_cust_info';
 		truncate table bronze.crm_cust_info;
 
@@ -16,7 +19,10 @@ begin
 			fieldterminator = ',',
 			tablock
 		);
+		set @end_time = getdate();
+		print '> Loading duration: ' + cast(datediff(second, @start_time, @end_time) as varchar) + ' seconds';
 
+		set @start_time = getdate();
 		print '> Truncating table: bronze.crm_prd_info';
 		truncate table bronze.crm_prd_info;
 
@@ -28,7 +34,10 @@ begin
 			fieldterminator = ',',
 			tablock
 		);
+		set @end_time = getdate();
+		print '> Loading duration: ' + cast(datediff(second, @start_time, @end_time) as varchar) + ' seconds';
 
+		set @start_time = getdate();
 		print '> Truncating table: bronze.crm_sales_details';
 		truncate table bronze.crm_sales_details;
 
@@ -40,8 +49,11 @@ begin
 			fieldterminator = ',',
 			tablock
 		);
+		set @end_time = getdate();
+		print '> Loading duration: ' + cast(datediff(second, @start_time, @end_time) as varchar) + ' seconds';
 
 		print 'Loading ERP data...';
+		set @start_time = getdate();
 		print '> Truncating table: bronze.erp_cust_az12';
 		truncate table bronze.erp_cust_az12;
 
@@ -53,7 +65,10 @@ begin
 			fieldterminator = ',',
 			tablock
 		);
+		set @end_time = getdate();
+		print '> Loading duration: ' + cast(datediff(second, @start_time, @end_time) as varchar) + ' seconds';
 
+		set @start_time = getdate();
 		print '> Truncating table: bronze.erp_loc_a101';
 		truncate table bronze.erp_loc_a101;
 
@@ -65,7 +80,10 @@ begin
 			fieldterminator = ',',
 			tablock
 		);
+		set @end_time = getdate();
+		print '> Loading duration: ' + cast(datediff(second, @start_time, @end_time) as varchar) + ' seconds';
 
+		set @start_time = getdate();
 		print '> Truncating table: bronze.erp_px_cat_g1v2';
 		truncate table bronze.erp_px_cat_g1v2;
 
@@ -77,6 +95,10 @@ begin
 			fieldterminator = ',',
 			tablock
 		);
+		set @end_time = getdate();
+		print '> Loading duration: ' + cast(datediff(second, @start_time, @end_time) as varchar) + ' seconds';
+		set @batch_end_time = getdate();
+		print 'Total loading duration: ' + cast(datediff(second, @batch_start_time, @batch_end_time) as varchar) + ' seconds';
 	end try
 	begin catch
 	end catch
