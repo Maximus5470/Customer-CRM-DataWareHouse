@@ -15,7 +15,6 @@ go
 use CustomerCRM_DWH;
 go
 
-
 -- creating schemas for the data warehouse layers
 create schema bronze;
 go
