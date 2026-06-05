@@ -8,9 +8,9 @@ create table bronze.crm_cust_info(
 	cst_key				nvarchar(50),
 	cst_firstname		nvarchar(50),
 	cst_lastname		nvarchar(50),
-	cst_marital_status	char(1),
-	cst_gndr			char(1),
-	cst_create_date		date
+	cst_marital_status	nvarchar(50),
+	cst_gndr			nvarchar(50),
+	cst_create_date		datetime
 )
 
 if OBJECT_ID('bronze.crm_prd_info', 'U') IS NOT NULL
@@ -21,17 +21,17 @@ create table bronze.crm_prd_info(
 	prd_key			nvarchar(50),
 	prd_nm			nvarchar(50),
 	prd_cost		int,
-	prd_line		nvarchar(5),
-	prd_start_dt	date,
-	prd_end_dt		date
+	prd_line		nvarchar(50),
+	prd_start_dt	datetime,
+	prd_end_dt		datetime
 )
 
 if OBJECT_ID('bronze.crm_sales_details', 'U') IS NOT NULL
 	drop table bronze.crm_sales_details
 
 create table bronze.crm_sales_details(
-	sls_ord_num		varchar(50),
-	sls_prd_key		varchar(50),
+	sls_ord_num		nvarchar(50),
+	sls_prd_key		nvarchar(50),
 	sls_cust_id		int,
 	sls_order_dt	int,
 	sls_ship_dt		int,
