@@ -47,3 +47,31 @@ from bronze.crm_prd_info
 select *
 from bronze.crm_prd_info
 where prd_start_dt > prd_end_dt
+
+-- checking integrity of cst_id and prd_key
+select sls_cust_id
+from bronze.crm_sales_details
+where sls_cust_id not in (select cst_id from silver.crm_cust_info)
+
+select sls_prd_key
+from bronze.crm_sales_details
+where sls_prd_key not in (select prd_key from silver.crm_prd_info)
+
+-- date less than equal to 0 and checking if the length is valid for a date or not (should be 8 for YYYYMMDD format)
+select *
+from bronze.crm_sales_details
+where sls_order_dt <= 0 or len(sls_order_dt) != 8
+
+-- selecting sls_sales which are negative, 0 or null
+select *
+from bronze.crm_sales_details
+where sls_sales <= 0 or sls_sales is null or sls_sales != sls_price* sls_quantity
+
+-- getting bdate greater than current date
+select bdate
+from bronze.erp_cust_az12
+where bdate > getdate()
+
+-- getting distinct values in gen column
+select distinct gen
+from bronze.erp_cust_az12
