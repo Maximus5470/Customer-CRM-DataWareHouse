@@ -1,3 +1,4 @@
+-- Gold layer contains the views of all the relevant dimensions and facts
 -- dim_customers
 if object_id('gold.dim_customers') is not null
     drop view gold.dim_customers;
